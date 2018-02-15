@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Event Calendar App</title>
+
+  <style type="text/css">
+    body, html {
+      font-family: sans-serif;
+    }
+    body{
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(90deg, 
+                    rgba(51,51,51,.5) 5%,
+                    transparent 5%, transparent 10%,
+                    rgba(51,51,51,.5) 10%, rgba(51,51,51,.5) 15%,
+                    transparent 15%, transparent 20%,
+                    rgba(51,51,51,.5) 20%, rgba(51,51,51,.5) 25%,  
+                    rgba(255,230,153,.5) 25%, rgba(255,230,153,.5) 75%,
+                    rgba(200,0,0,0.5) 75%, rgba(200,0,0,0.5) 80%, 
+                    rgba(255,230,153,.5) 80%),
+            linear-gradient(
+                    rgba(51,51,51,.5) 5%,
+                    transparent 5%, transparent 10%,
+                    rgba(51,51,51,.5) 10%, rgba(51,51,51,.5) 15%,
+                    transparent 15%, transparent 20%,
+                    rgba(51,51,51,.5) 20%, rgba(51,51,51,.5) 25%,  
+                    rgba(255,230,153,.5) 25%, rgba(255,230,153,.5) 75%,
+                    rgba(200,0,0,0.5) 75%, rgba(200,0,0,0.5) 80%, 
+                    rgba(255,230,153,.5) 80%);
+
+
+      ;
+      background-size: 250px 250px;
+    }
+    #main{
+    background-color: white;
+    border: 30px solid hsla(0,0%,100%,.5);
+    background-clip: padding-box;
+    }
+    .vis-item.group1 {
+      background-color: greenyellow;
+      border-color: green;
+    }
+    .vis-item.group2 {
+      background-color: #c8c1f4;
+      border-color: #5c47e0;
+    }
+    .vis-item.group3 {
+      background-color: #d9f1f3;
+      border-color: #42bdc7
+    }
+  </style>
+
+  <script src="vis.js"></script>
+  <link href="vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
+  
+</head>
+<body>
+<div id='main'>
+<h1>Event Calendar</h1>
+
+
+<div id="visualization"></div>
+</div>
+<script type="text/javascript">
+  // DOM element where the Timeline will be attached
+  var container = document.getElementById('visualization');
+
+  // Create a DataSet (allows two way data-binding)
+  var items = new vis.DataSet([
+    {id: 8, content: 'restart by Sasha', start: '2017-12-09 18:30:00', className: 'group1'},
+    {id: 7, content: 'restart by Dima', start: '2017-12-09 18:30:00', className: 'group1'},
+    {id: 1, content: 'restart by Jhon', start: '2018-01-19 18:30:00', className: 'group1'},
+    {id: 2, content: 'release #16.3.30', start: '2018-01-24', className: 'group2'},
+    {id: 3, content: 'content change', start: '2018-01-28', className: 'group2'},
+    {id: 4, content: 'pre-sales compagn', start: '2018-01-22', end: '2018-01-29', className: 'group3'},
+    {id: 5, content: 'release #16.4.0', start: '2018-02-05', className: 'group2'},
+    {id: 6, content: 'show', start: '2018-02-17 19:00:00', className: 'group3'}
+  ]);
+
+  // Configuration for the Timeline
+  var options = {
+    start: '2018-01-01'
+  };
+
+  // Create a Timeline
+  var timeline = new vis.Timeline(container, items, options);
+</script>
+</body>
+</html>
