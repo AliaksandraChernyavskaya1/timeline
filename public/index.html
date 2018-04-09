@@ -2,91 +2,152 @@
 <html>
 <head>
   <title>Event Calendar App</title>
-
-  <style type="text/css">
-    body, html {
-      font-family: sans-serif;
-    }
-    body{
-      height: 100vh;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(90deg, 
-                    rgba(51,51,51,.5) 5%,
-                    transparent 5%, transparent 10%,
-                    rgba(51,51,51,.5) 10%, rgba(51,51,51,.5) 15%,
-                    transparent 15%, transparent 20%,
-                    rgba(51,51,51,.5) 20%, rgba(51,51,51,.5) 25%,  
-                    rgba(255,230,153,.5) 25%, rgba(255,230,153,.5) 75%,
-                    rgba(200,0,0,0.5) 75%, rgba(200,0,0,0.5) 80%, 
-                    rgba(255,230,153,.5) 80%),
-            linear-gradient(
-                    rgba(51,51,51,.5) 5%,
-                    transparent 5%, transparent 10%,
-                    rgba(51,51,51,.5) 10%, rgba(51,51,51,.5) 15%,
-                    transparent 15%, transparent 20%,
-                    rgba(51,51,51,.5) 20%, rgba(51,51,51,.5) 25%,  
-                    rgba(255,230,153,.5) 25%, rgba(255,230,153,.5) 75%,
-                    rgba(200,0,0,0.5) 75%, rgba(200,0,0,0.5) 80%, 
-                    rgba(255,230,153,.5) 80%);
-
-
-      ;
-      background-size: 250px 250px;
-    }
-    #main{
-    background-color: white;
-    border: 30px solid hsla(0,0%,100%,.5);
-    background-clip: padding-box;
-    }
-    .vis-item.group1 {
-      background-color: greenyellow;
-      border-color: green;
-    }
-    .vis-item.group2 {
-      background-color: #c8c1f4;
-      border-color: #5c47e0;
-    }
-    .vis-item.group3 {
-      background-color: #d9f1f3;
-      border-color: #42bdc7
-    }
-  </style>
-
   <script src="vis.js"></script>
+  <link href="style.css" rel="stylesheet" type="text/css">
   <link href="vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
-  
+  <link rel="shortcut icon" href="time_icon.png">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script type="text/javascript" src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div id='main'>
-<h1>Event Calendar</h1>
+<h1>My Event Calendar</h1>
+<form id="search-group">
+  <fieldset>
+  <legend>Choose: </legend>
+  <div>
+    <ul class="groups_facet">
 
+    <li><input type="checkbox" id="group1" class="search_group" name="groups" value="1" checked>
+    <label for="group1">Group 1</label></li>
+    <li><input type="checkbox" id="group2" class="search_group" name="groups" value="2" checked>
+    <label for="group2">Group 2</label></li>    
+    <li><input type="checkbox" id="group3" class="search_group" name="groups" value="3" checked>
+    <label for="group3">Group 3</label></li>
+    </ul>
+  </div>
+  </fieldset>
+</form>
+<p>
+  <button onclick="showAllGroups()">Restore Hidden</button>
+</p>
 
 <div id="visualization"></div>
 </div>
+
 <script type="text/javascript">
   // DOM element where the Timeline will be attached
   var container = document.getElementById('visualization');
-
+  var groups = new vis.DataSet([
+    {id: 1, content: 'Group 1'},
+    {id: 2, content: 'Group 2'},
+    {id: 3, content: 'Group 3'}
+    ]);
+  
   // Create a DataSet (allows two way data-binding)
   var items = new vis.DataSet([
-    {id: 8, content: 'restart by Sasha', start: '2017-12-09 18:30:00', className: 'group1'},
-    {id: 7, content: 'restart by Dima', start: '2017-12-09 18:30:00', className: 'group1'},
-    {id: 1, content: 'restart by Jhon', start: '2018-01-19 18:30:00', className: 'group1'},
-    {id: 2, content: 'release #16.3.30', start: '2018-01-24', className: 'group2'},
-    {id: 3, content: 'content change', start: '2018-01-28', className: 'group2'},
-    {id: 4, content: 'pre-sales compagn', start: '2018-01-22', end: '2018-01-29', className: 'group3'},
-    {id: 5, content: 'release #16.4.0', start: '2018-02-05', className: 'group2'},
-    {id: 6, content: 'show', start: '2018-02-17 19:00:00', className: 'group3'}
+    {id: 8, content: 'restart by Sasha', start: '2017-12-09 18:30:00', className: 'group1', group: 1},
+    {id: 7, content: 'restart by Dima', start: '2017-12-09 18:30:00', className: 'group1', group: 1},
+    {id: 1, content: 'restart by Jhon', start: '2018-01-19 18:30:00', className: 'group1', group: 1},
+    {id: 2, content: 'release #16.3.30', start: '2018-01-24', className: 'group2', group: 2},
+    {id: 3, content: 'content change', start: '2018-01-28', className: 'group2', group: 2},
+    {id: 4, content: '', start: '2018-01-22', end: '2018-01-29', className: 'group3', group: 3, title: '<span style="color: red">pre-sales compagn</span><br> start: 2018-01-22<br> end: 2018-01-29'},
+    {id: 5, content: 'release #16.4.0', start: '2018-02-05', className: 'group2', group: 2, title: 'release #16.4.0<br> start: 2018-02-05'},
+    {id: 6, content: 'show', start: '2018-02-17 19:00:00', className: 'group3', group: 2}
   ]);
-
+//   var data = function init() {
+//  loadJSON(function(response) {
+//   // Parse JSON string into object
+//     var actual_JSON = JSON.parse(response);
+//  });
+// };
+//   console.log(data);
+  // var items = new vis.DataSet(data)
+  min_date = new Date();
+  min_date.setMonth(min_date.getMonth() - 6);
+  max_date = new Date();
+  max_date.setMonth(max_date.getMonth() + 6);
+  
   // Configuration for the Timeline
   var options = {
-    start: '2018-01-01'
+    height: '400px',
+    min: min_date,                // lower limit of visible range
+    max: max_date,                // upper limit of visible range
+    editable: true,
+    showTooltips: true,
+    groupOrder: function (a, b) {
+      return a.value - b.value;
+    },
+    groupOrderSwap: function (a, b, groups) {
+      var v = a.value;
+      a.value = b.value;
+      b.value = v;
+    },
+    groupTemplate: function(group){
+      var container = document.createElement('div');
+      var label = document.createElement('span');
+      label.innerHTML = group.content + ' ';
+      container.insertAdjacentElement('afterBegin',label);
+      var hide = document.createElement('button');
+      hide.innerHTML = 'hide';
+      hide.style.fontSize = 'small';
+      hide.addEventListener('click',function(){
+        groups.update({id: group.id, visible: false});
+      });
+      container.insertAdjacentElement('beforeEnd',hide);
+      return container;
+    },
+    orientation: 'both',
+    groupEditable: true
+  };
+
+
+  // Follow options
+  var follow_options = {
+    tooltip: {
+      followMouse: true
+    }
   };
 
   // Create a Timeline
-  var timeline = new vis.Timeline(container, items, options);
+  var timeline = new vis.Timeline(container, items, groups, options);
+
+  // function to make all groups visible again
+  function showAllGroups(){
+    groups.forEach(function(group){
+      groups.update({id: group.id, visible: true});
+    })
+  };
+
+  function loadJSON(callback) {   
+
+    var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+    xobj.open('GET', 'data.json', true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+ };
+
+  // Groups facet event listeners:
+  var search_groups = document.getElementsByName('groups');
+  search_groups.forEach(function(elem){
+    elem.addEventListener('change', function(el){
+        if(el.target.checked==true){groups.update({id: el.target.value, visible:true});}
+      else {groups.update({id: el.target.value, visible:false});}
+      });
+      });
+
+
 </script>
 </body>
 </html>

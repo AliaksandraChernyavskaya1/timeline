@@ -1,0 +1,52 @@
+body, html {
+      font-family: sans-serif;
+}
+body{
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(90deg, 
+                rgba(51,51,51,.5) 5%,
+                transparent 5%, transparent 10%,
+                rgba(51,51,51,.5) 10%, rgba(51,51,51,.5) 15%,
+                transparent 15%, transparent 20%,
+                rgba(51,51,51,.5) 20%, rgba(51,51,51,.5) 25%,  
+                rgba(255,230,153,.5) 25%, rgba(255,230,153,.5) 75%,
+                rgba(200,0,0,0.5) 75%, rgba(200,0,0,0.5) 80%, 
+                rgba(255,230,153,.5) 80%),
+        linear-gradient(
+                rgba(51,51,51,.5) 5%,
+                transparent 5%, transparent 10%,
+                rgba(51,51,51,.5) 10%, rgba(51,51,51,.5) 15%,
+                transparent 15%, transparent 20%,
+                rgba(51,51,51,.5) 20%, rgba(51,51,51,.5) 25%,  
+                rgba(255,230,153,.5) 25%, rgba(255,230,153,.5) 75%,
+                rgba(200,0,0,0.5) 75%, rgba(200,0,0,0.5) 80%, 
+                rgba(255,230,153,.5) 80%);
+
+
+  ;
+  background-size: 250px 250px;
+}
+
+.groups_facet{
+	list-style-type: none;
+}
+
+#main{
+background-color: white;
+border: 30px solid hsla(0,0%,100%,.5);
+background-clip: padding-box;
+}
+.vis-item.group1 {
+  background-color: greenyellow;
+  border-color: green;
+}
+.vis-item.group2 {
+  background-color: #c8c1f4;
+  border-color: #5c47e0;
+}
+.vis-item.group3 {
+  background-color: #d9f1f3;
+  border-color: #42bdc7
+}
